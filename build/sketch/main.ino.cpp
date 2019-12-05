@@ -45,10 +45,18 @@ void loop()
   lcd.println("Temperatura:");
   lcd.setCursor(12, 0);
   lcd.println((int)temperature);
+  lcd.setCursor(14, 0);
+  lcd.println((char)223);
+  lcd.setCursor(15, 0);
+  lcd.println("C");
   lcd.setCursor(0, 1);
-  lcd.println("Wilgotnosc:");
+  lcd.println("Wilgotnosc: ");
   lcd.setCursor(12, 1);
   lcd.println((int)humidity);
+  lcd.setCursor(14, 1);
+  lcd.println(" ");
+  lcd.setCursor(15, 1);
+  lcd.println((char)37);
   Serial.println(int(czas));
   // DHT11 sampling rate is 1HZ.
   delay(2000);
