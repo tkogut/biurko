@@ -1,0 +1,52 @@
+[
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "D:\\Arduino\\hardware\\arduino\\avr\\cores\\arduino"
+  },
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "D:\\Arduino\\hardware\\arduino\\avr\\variants\\standard"
+  },
+  {
+    "Sourcefile": "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\build\\sketch\\main.ino.cpp",
+    "Include": "LiquidCrystal_I2C.h",
+    "Includepath": "C:\\Users\\tkogut\\Documents\\Arduino\\libraries\\LiquidCrystal_I2C-1.1.2"
+  },
+  {
+    "Sourcefile": "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\build\\sketch\\main.ino.cpp",
+    "Include": "SimpleDHT.h",
+    "Includepath": "C:\\Users\\tkogut\\Documents\\Arduino\\libraries\\SimpleDHT"
+  },
+  {
+    "Sourcefile": "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\build\\sketch\\main.ino.cpp",
+    "Include": "Wire.h",
+    "Includepath": "D:\\Arduino\\hardware\\arduino\\avr\\libraries\\Wire\\src"
+  },
+  {
+    "Sourcefile": "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\build\\sketch\\main.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\tkogut\\Documents\\Arduino\\libraries\\LiquidCrystal_I2C-1.1.2\\LiquidCrystal_I2C.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\tkogut\\Documents\\Arduino\\libraries\\SimpleDHT\\SimpleDHT.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\Arduino\\hardware\\arduino\\avr\\libraries\\Wire\\src\\Wire.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\Arduino\\hardware\\arduino\\avr\\libraries\\Wire\\src\\utility\\twi.c",
+    "Include": "",
+    "Includepath": null
+  }
+]
