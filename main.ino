@@ -64,8 +64,10 @@ void loop()
     {
       Serial.println("Very Wet");
       Serial.println(soilMoistureValue);
-      lcd.setCursor(0, 0);
-      lcd.print("Very Wet");
+      lcd.setCursor(0, 5);
+      lcd.print("Wilgotnosc gleby");
+      lcd.setCursor(1, 5);
+      lcd.print("bardzo mokra");
       delay(1000);
       lcd.setCursor(0, 1);
       lcd.println(soilMoistureValue);
@@ -75,8 +77,10 @@ void loop()
     {
       Serial.println("Wet");
       Serial.println(soilMoistureValue);
-      lcd.setCursor(0, 0);
-      lcd.print("Wet");
+      lcd.setCursor(0, 5);
+      lcd.print("Wilgotnosc gleby");
+      lcd.setCursor(1, 5);
+      lcd.print("Mokra");
       delay(1000);
       lcd.setCursor(0, 1);
       lcd.println(soilMoistureValue);
@@ -86,8 +90,10 @@ void loop()
     {
       Serial.println("Dry");
       Serial.println(soilMoistureValue);
-      lcd.setCursor(0, 0);
-      lcd.print("Dry");
+      lcd.setCursor(0, 5);
+      lcd.print("Wilgotnosc gleby");
+      lcd.setCursor(1, 5);
+      lcd.print("Sucha");
       delay(1000);
       lcd.setCursor(0, 1);
       lcd.println(soilMoistureValue);
