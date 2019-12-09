@@ -13,18 +13,18 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 //      VCC: 5V or 3V
 //      GND: GND
 //      DATA: 2
+SimpleDHT11 dht11;
 int pinDHT11 = 2;
 int relay_pump = 8;
-SimpleDHT11 dht11;
 int sum_of_moisture = 0; // initial value of the sum of the moisture measurements
 int mesurement = 0; // initial value of the measurement item
+
 unsigned long LastTime = 0;
 
 const int AirValue = 520; //you need to replace this value with Value_1
 const int WaterValue = 260; //you need to replace this value with Value_2
-
 int intervals = (AirValue - WaterValue) / 3;
-int soilMoistureValue = 0;
+
 void setup()
 {
   Serial.begin(9600); // open serial port, set the baud rate to 9600 bps
@@ -33,6 +33,7 @@ void setup()
   pinMode(relay_pump, 0x1);
   digitalWrite(relay_pump, 0x1);
 }
+
 void loop()
 {
   byte temperature = 0;
@@ -40,9 +41,9 @@ void loop()
   unsigned long CurrentTime = millis(); // time from start of the sketch
 
   if (dht11.read(pinDHT11, &temperature, &humidity, 
-# 41 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino" 3 4
+# 42 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino" 3 4
                                                    __null
-# 41 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino"
+# 42 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino"
                                                        ))
   {
     Serial.print("Read DHT11 failed.");
@@ -66,10 +67,12 @@ void loop()
   lcd.setCursor(15, 1);
   lcd.println((char)37);
   Serial.println(CurrentTime);
+  Serial.println(LastTime);
+  Serial.println(mesurement);
   // DHT11 sampling rate is 1HZ.
   delay(2000);
 
-  if (CurrentTime - LastTime > 1000) // if the time of the mesurements is longer than MeasurementBreak value:
+  if (CurrentTime - LastTime > 100) // if the time of the mesurements is longer than MeasurementBreak value:
   {
     LastTime = CurrentTime;
     mesurement += 1; // add the current mesurement to the total measurement no
@@ -79,56 +82,60 @@ void loop()
       int mean_moisture = ceil(sum_of_moisture / mesurement);
       lcd.clear();
       Serial.println(CurrentTime);
-      //soilMoistureValue = analogRead(A0); //put Sensor insert into soil
       if (mean_moisture > WaterValue && mean_moisture < (WaterValue + intervals))
       {
+        lcd.clear();
         Serial.println("Very Wet");
         Serial.println(mean_moisture);
-        lcd.setCursor(0, 5);
+        lcd.setCursor(0, 0);
         lcd.print("Wilgotnosc gleby");
-        lcd.setCursor(1, 5);
+        lcd.setCursor(1, 1);
         lcd.print("bardzo mokra");
         digitalWrite(relay_pump, 0x1);
         delay(1000);
-        lcd.setCursor(0, 1);
-        lcd.println(mean_moisture);
+        lcd.setCursor(10, 1);
+        //lcd.println(mean_moisture);
         delay(5000);
       }
       else if (mean_moisture > (WaterValue + intervals) && mean_moisture < (AirValue - intervals))
       {
+        lcd.clear();
         Serial.println("Wet");
         Serial.println(mean_moisture);
-        lcd.setCursor(0, 5);
+        lcd.setCursor(0, 0);
         lcd.print("Wilgotnosc gleby");
-        lcd.setCursor(1, 5);
+        lcd.setCursor(1, 1);
         lcd.print("Mokra");
         digitalWrite(relay_pump, 0x0);
         delay(1000);
-        lcd.setCursor(0, 1);
-        lcd.println(mean_moisture);
-        delay(5000);
+        lcd.setCursor(10, 1);
+        //lcd.println(mean_moisture);
+        delay(3000);
       }
       else if (mean_moisture < AirValue && mean_moisture > (AirValue - intervals))
       {
+        lcd.clear();
         Serial.println("Dry");
         Serial.println(mean_moisture);
-        lcd.setCursor(0, 5);
+        lcd.setCursor(0, 0);
         lcd.print("Wilgotnosc gleby");
-        lcd.setCursor(1, 5);
+        lcd.setCursor(1, 1);
         lcd.print("Sucha");
         digitalWrite(relay_pump, 0x0);
         delay(3000);
-        lcd.setCursor(0, 1);
-        lcd.println(mean_moisture);
+        lcd.setCursor(10, 1);
+        //lcd.println(mean_moisture);
         delay(5000);
       }
       else
       {
+        lcd.clear();
         Serial.println("Blad pomiaru");
         lcd.println("Blad pomiaru");
         delay(5000);
       }
+      digitalWrite(relay_pump, 0x1);
+      mesurement = sum_of_moisture = 0;
     }
   }
-  mesurement = sum_of_moisture = 0;
 }
