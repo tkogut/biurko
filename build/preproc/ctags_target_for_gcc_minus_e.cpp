@@ -83,12 +83,12 @@ void loop()
   lcd.print(wilgotnosc[w]);
   delay(2000);
 
-  if (CurrentTime - LastTime > 10000) // if the time of the mesurements is longer than MeasurementBreak value:
+  if (CurrentTime - LastTime > 600000) // if the time of the mesurements is longer than MeasurementBreak value:
   {
     LastTime = CurrentTime;
     mesurement += 1; // add the current mesurement to the total measurement no
     sum_of_moisture += analogRead(A0); // add the current moisture value to the sum of the moisture measurement
-    if (mesurement >= 10)
+    if (mesurement >= 6)
     {
       int mean_moisture = ceil(sum_of_moisture / mesurement);
       lcd.clear();

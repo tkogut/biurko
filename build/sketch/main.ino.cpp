@@ -4,8 +4,8 @@
 #include <SimpleDHT.h>
 #include <Wire.h>
 
-#define MeasureBreak 10000
-#define NumberOfMeasurements 10
+#define MeasureBreak 600000
+#define NumberOfMeasurements 6
 
 // Set the LCD address to 0x27 for a 16 chars and 2 line display
 LiquidCrystal_I2C lcd(0x27, 16, 2);
