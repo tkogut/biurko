@@ -2,7 +2,7 @@
 #include <SimpleDHT.h>
 #include <Wire.h>
 
-#define MeasureBreak 100
+#define MeasureBreak 10000
 #define NumberOfMeasurements 10
 
 // Set the LCD address to 0x27 for a 16 chars and 2 line display
@@ -17,6 +17,9 @@ int pinDHT11 = 2;
 int relay_pump = 8;
 int sum_of_moisture = 0; // initial value of the sum of the moisture measurements
 int mesurement = 0;      // initial value of the measurement item
+int mean_moisture = 0;
+int w = 0;
+String wilgotnosc[] = {"Sucha", "Mokra", "Bardzo mokra"};
 
 unsigned long LastTime = 0;
 
@@ -61,10 +64,18 @@ void loop()
   lcd.println(" ");
   lcd.setCursor(15, 1);
   lcd.println((char)37);
+  Serial.println("-----------------------");
   Serial.println(CurrentTime);
   Serial.println(LastTime);
   Serial.println(mesurement);
+  Serial.println(ceil(sum_of_moisture / mesurement));
   // DHT11 sampling rate is 1HZ.
+  delay(2000);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Wilgotnosc gleby");
+  lcd.setCursor(1, 1);
+  lcd.print(wilgotnosc[w]);
   delay(2000);
 
   if (CurrentTime - LastTime > MeasureBreak) // if the time of the mesurements is longer than MeasurementBreak value:
@@ -77,15 +88,17 @@ void loop()
       int mean_moisture = ceil(sum_of_moisture / mesurement);
       lcd.clear();
       Serial.println(CurrentTime);
+
       if (mean_moisture > WaterValue && mean_moisture < (WaterValue + intervals))
       {
         lcd.clear();
-        Serial.println("Very Wet");
+        w = 2;
+        Serial.println(wilgotnosc[w]);
         Serial.println(mean_moisture);
         lcd.setCursor(0, 0);
         lcd.print("Wilgotnosc gleby");
         lcd.setCursor(1, 1);
-        lcd.print("bardzo mokra");
+        lcd.print(wilgotnosc[w]);
         digitalWrite(relay_pump, HIGH);
         delay(1000);
         lcd.setCursor(10, 1);
@@ -95,32 +108,32 @@ void loop()
       else if (mean_moisture > (WaterValue + intervals) && mean_moisture < (AirValue - intervals))
       {
         lcd.clear();
-        Serial.println("Wet");
+        w = 1;
+        Serial.println(wilgotnosc[w]);
         Serial.println(mean_moisture);
         lcd.setCursor(0, 0);
         lcd.print("Wilgotnosc gleby");
         lcd.setCursor(1, 1);
-        lcd.print("Mokra");
+        lcd.print(wilgotnosc[w]);
         digitalWrite(relay_pump, LOW);
-        delay(1000);
+        delay(10000);
         lcd.setCursor(10, 1);
         //lcd.println(mean_moisture);
-        delay(3000);
       }
       else if (mean_moisture < AirValue && mean_moisture > (AirValue - intervals))
       {
         lcd.clear();
-        Serial.println("Dry");
+        w = 0;
+        Serial.println(wilgotnosc[w]);
         Serial.println(mean_moisture);
         lcd.setCursor(0, 0);
         lcd.print("Wilgotnosc gleby");
         lcd.setCursor(1, 1);
-        lcd.print("Sucha");
+        lcd.print(wilgotnosc[w]);
         digitalWrite(relay_pump, LOW);
-        delay(3000);
+        delay(20000);
         lcd.setCursor(10, 1);
         //lcd.println(mean_moisture);
-        delay(5000);
       }
       else
       {
