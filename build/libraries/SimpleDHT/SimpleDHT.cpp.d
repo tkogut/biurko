@@ -1,4 +1,4 @@
-c:\Users\tkogut\Documents\Arduino\BIURKO_1\build\libraries\SimpleDHT\SimpleDHT.cpp.o: \
+c:\Users\tkogut\Documents\Arduino\Stacja\ nawadninia\build\libraries\SimpleDHT\SimpleDHT.cpp.o: \
  C:\Users\tkogut\Documents\Arduino\libraries\SimpleDHT\SimpleDHT.cpp \
  C:\Users\tkogut\Documents\Arduino\libraries\SimpleDHT\SimpleDHT.h \
  D:\Arduino\hardware\arduino\avr\cores\arduino/Arduino.h \

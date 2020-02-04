@@ -1,5 +1,5 @@
-c:\Users\tkogut\Documents\Arduino\Stacja\ nawadninia\build\core\main.cpp.o: \
- D:\Arduino\hardware\arduino\avr\cores\arduino\main.cpp \
+c:\Users\tkogut\Documents\Arduino\Stacja\ nawadninia\build\libraries\SoftwareSerial\SoftwareSerial.cpp.o: \
+ D:\Arduino\hardware\arduino\avr\libraries\SoftwareSerial\src\SoftwareSerial.cpp \
  D:\Arduino\hardware\arduino\avr\cores\arduino/Arduino.h \
  D:\Arduino\hardware\arduino\avr\cores\arduino/binary.h \
  D:\Arduino\hardware\arduino\avr\cores\arduino/WCharacter.h \
@@ -10,4 +10,6 @@ c:\Users\tkogut\Documents\Arduino\Stacja\ nawadninia\build\core\main.cpp.o: \
  D:\Arduino\hardware\arduino\avr\cores\arduino/Printable.h \
  D:\Arduino\hardware\arduino\avr\cores\arduino/USBAPI.h \
  D:\Arduino\hardware\arduino\avr\cores\arduino/Arduino.h \
- D:\Arduino\hardware\arduino\avr\variants\standard/pins_arduino.h
+ D:\Arduino\hardware\arduino\avr\variants\standard/pins_arduino.h \
+ D:\Arduino\hardware\arduino\avr\libraries\SoftwareSerial\src/SoftwareSerial.h \
+ D:\Arduino\hardware\arduino\avr\cores\arduino/Stream.h

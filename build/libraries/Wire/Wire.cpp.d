@@ -1,4 +1,4 @@
-c:\Users\tkogut\Documents\Arduino\BIURKO_1\build\libraries\Wire\Wire.cpp.o: \
+c:\Users\tkogut\Documents\Arduino\Stacja\ nawadninia\build\libraries\Wire\Wire.cpp.o: \
  D:\Arduino\hardware\arduino\avr\libraries\Wire\src\Wire.cpp \
  D:\Arduino\hardware\arduino\avr\libraries\Wire\src\utility/twi.h \
  D:\Arduino\hardware\arduino\avr\libraries\Wire\src\Wire.h \

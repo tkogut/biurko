@@ -1,11 +1,13 @@
 #include <Arduino.h>
-#line 1 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino"
+#line 1 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino"
 #include <LiquidCrystal_I2C.h>
 #include <SimpleDHT.h>
 #include <Wire.h>
 
 #define MeasureBreak 600000
 #define NumberOfMeasurements 6
+#include <SoftwareSerial.h>
+SoftwareSerial nodemcu(2, 3);
 
 // Set the LCD address to 0x27 for a 16 chars and 2 line display
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -22,6 +24,8 @@ int mesurement = 0;      // initial value of the measurement item
 int mean_moisture = 0;
 int w = 0;
 String wilgotnosc[] = {"Sucha", "Mokra", "Bardzo mokra"};
+String cdata;
+String myString;
 
 unsigned long LastTime = 0;
 
@@ -29,15 +33,16 @@ const int AirValue = 520;   //you need to replace this value with Value_1
 const int WaterValue = 260; //you need to replace this value with Value_2
 int intervals = (AirValue - WaterValue) / 3;
 
-#line 30 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino"
+#line 34 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino"
 void setup();
-#line 39 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino"
+#line 44 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino"
 void loop();
-#line 30 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino"
+#line 34 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino"
 void setup()
 {
   Serial.begin(9600); // open serial port, set the baud rate to 9600 bps
-  lcd.begin();        // initialize the LCD
+  nodemcu.begin(9600);
+  lcd.begin(); // initialize the LCD
   lcd.backlight();
   pinMode(relay_pump, OUTPUT);
   digitalWrite(relay_pump, HIGH);
@@ -59,6 +64,7 @@ void loop()
   lcd.println("Temperatura:");
   lcd.setCursor(12, 0);
   lcd.println((int)temperature);
+  int myValue = temperature;
   lcd.setCursor(14, 0);
   lcd.println((char)223);
   lcd.setCursor(15, 0);
@@ -83,7 +89,11 @@ void loop()
   lcd.print("Wilgotnosc gleby");
   lcd.setCursor(1, 1);
   lcd.print(wilgotnosc[w]);
+  myString = wilgotnosc[w];
+  cdata = cdata + myValue + "," + myString;
+  nodemcu.println(cdata);
   delay(2000);
+  cdata = "";
 
   if (CurrentTime - LastTime > MeasureBreak) // if the time of the mesurements is longer than MeasurementBreak value:
   {

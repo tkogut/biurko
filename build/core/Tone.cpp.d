@@ -1,4 +1,4 @@
-c:\Users\tkogut\Documents\Arduino\BIURKO_1\build\core\Tone.cpp.o: \
+c:\Users\tkogut\Documents\Arduino\Stacja\ nawadninia\build\core\Tone.cpp.o: \
  D:\Arduino\hardware\arduino\avr\cores\arduino\Tone.cpp \
  D:\Arduino\hardware\arduino\avr\cores\arduino\Arduino.h \
  D:\Arduino\hardware\arduino\avr\cores\arduino\binary.h \

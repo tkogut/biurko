@@ -1,4 +1,4 @@
-c:\Users\tkogut\Documents\Arduino\BIURKO_1\build\libraries\LiquidCrystal_I2C-1.1.2\LiquidCrystal_I2C.cpp.o: \
+c:\Users\tkogut\Documents\Arduino\Stacja\ nawadninia\build\libraries\LiquidCrystal_I2C-1.1.2\LiquidCrystal_I2C.cpp.o: \
  C:\Users\tkogut\Documents\Arduino\libraries\LiquidCrystal_I2C-1.1.2\LiquidCrystal_I2C.cpp \
  C:\Users\tkogut\Documents\Arduino\libraries\LiquidCrystal_I2C-1.1.2\LiquidCrystal_I2C.h \
  D:\Arduino\hardware\arduino\avr\cores\arduino/Print.h \

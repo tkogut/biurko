@@ -1,5 +1,5 @@
-c:\Users\tkogut\Documents\Arduino\BIURKO_1\build\sketch\main.ino.cpp.o: \
- c:\Users\tkogut\Documents\Arduino\BIURKO_1\build\sketch\main.ino.cpp \
+c:\Users\tkogut\Documents\Arduino\Stacja\ nawadninia\build\sketch\main.ino.cpp.o: \
+ c:\Users\tkogut\Documents\Arduino\Stacja\ nawadninia\build\sketch\main.ino.cpp \
  D:\Arduino\hardware\arduino\avr\cores\arduino/Arduino.h \
  D:\Arduino\hardware\arduino\avr\cores\arduino/binary.h \
  D:\Arduino\hardware\arduino\avr\cores\arduino/WCharacter.h \
@@ -15,4 +15,5 @@ c:\Users\tkogut\Documents\Arduino\BIURKO_1\build\sketch\main.ino.cpp.o: \
  D:\Arduino\hardware\arduino\avr\cores\arduino/Print.h \
  C:\Users\tkogut\Documents\Arduino\libraries\SimpleDHT/SimpleDHT.h \
  D:\Arduino\hardware\arduino\avr\libraries\Wire\src/Wire.h \
- D:\Arduino\hardware\arduino\avr\cores\arduino/Stream.h
+ D:\Arduino\hardware\arduino\avr\cores\arduino/Stream.h \
+ D:\Arduino\hardware\arduino\avr\libraries\SoftwareSerial\src/SoftwareSerial.h

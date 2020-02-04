@@ -1,4 +1,4 @@
-c:\Users\tkogut\Documents\Arduino\BIURKO_1\build\core\HardwareSerial0.cpp.o: \
+c:\Users\tkogut\Documents\Arduino\Stacja\ nawadninia\build\core\HardwareSerial0.cpp.o: \
  D:\Arduino\hardware\arduino\avr\cores\arduino\HardwareSerial0.cpp \
  D:\Arduino\hardware\arduino\avr\cores\arduino\Arduino.h \
  D:\Arduino\hardware\arduino\avr\cores\arduino\binary.h \

@@ -1,4 +1,4 @@
-c:\Users\tkogut\Documents\Arduino\BIURKO_1\build\core\Print.cpp.o: \
+c:\Users\tkogut\Documents\Arduino\Stacja\ nawadninia\build\core\Print.cpp.o: \
  D:\Arduino\hardware\arduino\avr\cores\arduino\Print.cpp \
  D:\Arduino\hardware\arduino\avr\cores\arduino\Arduino.h \
  D:\Arduino\hardware\arduino\avr\cores\arduino\binary.h \

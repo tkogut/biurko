@@ -1,10 +1,12 @@
-# 1 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino"
-# 2 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino" 2
-# 3 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino" 2
-# 4 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino" 2
+# 1 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino"
+# 2 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino" 2
+# 3 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino" 2
+# 4 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino" 2
 
 
 
+# 8 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino" 2
+SoftwareSerial nodemcu(2, 3);
 
 // Set the LCD address to 0x27 for a 16 chars and 2 line display
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -21,6 +23,8 @@ int mesurement = 0; // initial value of the measurement item
 int mean_moisture = 0;
 int w = 0;
 String wilgotnosc[] = {"Sucha", "Mokra", "Bardzo mokra"};
+String cdata;
+String myString;
 
 unsigned long LastTime = 0;
 
@@ -31,6 +35,7 @@ int intervals = (AirValue - WaterValue) / 3;
 void setup()
 {
   Serial.begin(9600); // open serial port, set the baud rate to 9600 bps
+  nodemcu.begin(9600);
   lcd.begin(); // initialize the LCD
   lcd.backlight();
   pinMode(relay_pump, 0x1);
@@ -44,9 +49,9 @@ void loop()
   unsigned long CurrentTime = millis(); // time from start of the sketch
 
   if (dht11.read(pinDHT11, &temperature, &humidity, 
-# 45 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino" 3 4
+# 50 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino" 3 4
                                                    __null
-# 45 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino"
+# 50 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino"
                                                        ))
   {
     Serial.print("Read DHT11 failed.");
@@ -57,6 +62,7 @@ void loop()
   lcd.println("Temperatura:");
   lcd.setCursor(12, 0);
   lcd.println((int)temperature);
+  int myValue = temperature;
   lcd.setCursor(14, 0);
   lcd.println((char)223);
   lcd.setCursor(15, 0);
@@ -81,7 +87,11 @@ void loop()
   lcd.print("Wilgotnosc gleby");
   lcd.setCursor(1, 1);
   lcd.print(wilgotnosc[w]);
+  myString = wilgotnosc[w];
+  cdata = cdata + myValue + "," + myString;
+  nodemcu.println(cdata);
   delay(2000);
+  cdata = "";
 
   if (CurrentTime - LastTime > 600000) // if the time of the mesurements is longer than MeasurementBreak value:
   {
