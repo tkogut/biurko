@@ -7,7 +7,7 @@
 #define MeasureBreak 100
 #define NumberOfMeasurements 10
 #include <SoftwareSerial.h>
-SoftwareSerial nodemcu(2, 3);
+SoftwareSerial nodemcu(3, 4);
 
 // Set the LCD address to 0x27 for a 16 chars and 2 line display
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -23,7 +23,7 @@ int sum_of_moisture = 0; // initial value of the sum of the moisture measurement
 int mesurement = 0;      // initial value of the measurement item
 int mean_moisture = 0;
 int w = 0;
-String wilgotnosc[] = {"DUPA", "Mokra", "Bardzo mokra", "blad pomiaru"};
+String wilgotnosc[] = {"Sucho", "Mokra", "Bardzo mokra", "blad pomiaru"};
 String cdata;
 String myString;
 
@@ -54,12 +54,12 @@ void loop()
   byte humidity = 0;
   unsigned long CurrentTime = millis(); // time from start of the sketch
 
-  /*if (dht11.read(pinDHT11, &temperature, &humidity, NULL))
+  if (dht11.read(pinDHT11, &temperature, &humidity, NULL))
   {
     Serial.print("Read DHT11 failed.");
     return;
   }
-  */
+
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.println("Temperatura:");
@@ -159,7 +159,7 @@ void loop()
       {
         w = 4;
         lcd.clear();
-        Serial.println("wilgotnosc[w]");
+        Serial.println(wilgotnosc[w]);
         lcd.println(wilgotnosc[w]);
         delay(5000);
       }

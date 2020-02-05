@@ -5,7 +5,7 @@
 #define MeasureBreak 100
 #define NumberOfMeasurements 10
 #include <SoftwareSerial.h>
-SoftwareSerial nodemcu(2, 3);
+SoftwareSerial nodemcu(3, 4);
 
 // Set the LCD address to 0x27 for a 16 chars and 2 line display
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -47,12 +47,12 @@ void loop()
   byte humidity = 0;
   unsigned long CurrentTime = millis(); // time from start of the sketch
 
-  /*if (dht11.read(pinDHT11, &temperature, &humidity, NULL))
+  if (dht11.read(pinDHT11, &temperature, &humidity, NULL))
   {
     Serial.print("Read DHT11 failed.");
     return;
   }
-  */
+
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.println("Temperatura:");
