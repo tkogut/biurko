@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:uno",
-    "port": "COM3",
+    "port": "COM7",
     "programmer": "AVRISP mkII",
     "sketch": "main.ino",
     "output": "build"

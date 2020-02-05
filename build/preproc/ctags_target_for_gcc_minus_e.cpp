@@ -22,7 +22,7 @@ int sum_of_moisture = 0; // initial value of the sum of the moisture measurement
 int mesurement = 0; // initial value of the measurement item
 int mean_moisture = 0;
 int w = 0;
-String wilgotnosc[] = {"Sucha", "Mokra", "Bardzo mokra"};
+String wilgotnosc[] = {"DUPA", "Mokra", "Bardzo mokra", "blad pomiaru"};
 String cdata;
 String myString;
 
@@ -48,15 +48,18 @@ void loop()
   byte humidity = 0;
   unsigned long CurrentTime = millis(); // time from start of the sketch
 
-  if (dht11.read(pinDHT11, &temperature, &humidity, 
-# 50 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino" 3 4
-                                                   __null
-# 50 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino"
-                                                       ))
+  /*if (dht11.read(pinDHT11, &temperature, &humidity, NULL))
+
   {
+
     Serial.print("Read DHT11 failed.");
+
     return;
+
   }
+
+  */
+# 56 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino"
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.println("Temperatura:");
@@ -71,6 +74,7 @@ void loop()
   lcd.println("Wilgotnosc: ");
   lcd.setCursor(12, 1);
   lcd.println((int)humidity);
+  int myValue1 = humidity;
   lcd.setCursor(14, 1);
   lcd.println(" ");
   lcd.setCursor(15, 1);
@@ -79,6 +83,7 @@ void loop()
   Serial.println(CurrentTime);
   Serial.println(LastTime);
   Serial.println(mesurement);
+  Serial.println(wilgotnosc[w]);
   Serial.println(ceil(sum_of_moisture / mesurement));
   // DHT11 sampling rate is 1HZ.
   delay(2000);
@@ -88,17 +93,17 @@ void loop()
   lcd.setCursor(1, 1);
   lcd.print(wilgotnosc[w]);
   myString = wilgotnosc[w];
-  cdata = cdata + myValue + "," + myString;
+  cdata = cdata + myValue + "," + myValue1 + "," + myString;
   nodemcu.println(cdata);
   delay(2000);
   cdata = "";
 
-  if (CurrentTime - LastTime > 600000) // if the time of the mesurements is longer than MeasurementBreak value:
+  if (CurrentTime - LastTime > 100) // if the time of the mesurements is longer than MeasurementBreak value:
   {
     LastTime = CurrentTime;
     mesurement += 1; // add the current mesurement to the total measurement no
     sum_of_moisture += analogRead(A0); // add the current moisture value to the sum of the moisture measurement
-    if (mesurement >= 6)
+    if (mesurement >= 10)
     {
       int mean_moisture = ceil(sum_of_moisture / mesurement);
       lcd.clear();
@@ -152,9 +157,10 @@ void loop()
       }
       else
       {
+        w = 4;
         lcd.clear();
-        Serial.println("Blad pomiaru");
-        lcd.println("Blad pomiaru");
+        Serial.println("wilgotnosc[w]");
+        lcd.println(wilgotnosc[w]);
         delay(5000);
       }
       digitalWrite(relay_pump, 0x1);

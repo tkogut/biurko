@@ -4,8 +4,8 @@
 #include <SimpleDHT.h>
 #include <Wire.h>
 
-#define MeasureBreak 600000
-#define NumberOfMeasurements 6
+#define MeasureBreak 100
+#define NumberOfMeasurements 10
 #include <SoftwareSerial.h>
 SoftwareSerial nodemcu(2, 3);
 
@@ -23,7 +23,7 @@ int sum_of_moisture = 0; // initial value of the sum of the moisture measurement
 int mesurement = 0;      // initial value of the measurement item
 int mean_moisture = 0;
 int w = 0;
-String wilgotnosc[] = {"Sucha", "Mokra", "Bardzo mokra"};
+String wilgotnosc[] = {"DUPA", "Mokra", "Bardzo mokra", "blad pomiaru"};
 String cdata;
 String myString;
 
@@ -54,11 +54,12 @@ void loop()
   byte humidity = 0;
   unsigned long CurrentTime = millis(); // time from start of the sketch
 
-  if (dht11.read(pinDHT11, &temperature, &humidity, NULL))
+  /*if (dht11.read(pinDHT11, &temperature, &humidity, NULL))
   {
     Serial.print("Read DHT11 failed.");
     return;
   }
+  */
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.println("Temperatura:");
@@ -73,6 +74,7 @@ void loop()
   lcd.println("Wilgotnosc: ");
   lcd.setCursor(12, 1);
   lcd.println((int)humidity);
+  int myValue1 = humidity;
   lcd.setCursor(14, 1);
   lcd.println(" ");
   lcd.setCursor(15, 1);
@@ -81,6 +83,7 @@ void loop()
   Serial.println(CurrentTime);
   Serial.println(LastTime);
   Serial.println(mesurement);
+  Serial.println(wilgotnosc[w]);
   Serial.println(ceil(sum_of_moisture / mesurement));
   // DHT11 sampling rate is 1HZ.
   delay(2000);
@@ -90,7 +93,7 @@ void loop()
   lcd.setCursor(1, 1);
   lcd.print(wilgotnosc[w]);
   myString = wilgotnosc[w];
-  cdata = cdata + myValue + "," + myString;
+  cdata = cdata + myValue + "," + myValue1 + "," + myString;
   nodemcu.println(cdata);
   delay(2000);
   cdata = "";
@@ -154,9 +157,10 @@ void loop()
       }
       else
       {
+        w = 4;
         lcd.clear();
-        Serial.println("Blad pomiaru");
-        lcd.println("Blad pomiaru");
+        Serial.println("wilgotnosc[w]");
+        lcd.println(wilgotnosc[w]);
         delay(5000);
       }
       digitalWrite(relay_pump, HIGH);
