@@ -4,8 +4,8 @@
 #include <SimpleDHT.h>
 #include <Wire.h>
 
-#define MeasureBreak 100
-#define NumberOfMeasurements 10
+#define MeasureBreak 600000
+#define NumberOfMeasurements 6
 #include <SoftwareSerial.h>
 SoftwareSerial nodemcu(3, 4);
 
