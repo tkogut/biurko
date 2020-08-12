@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#line 1 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino"
+#line 1 "c:\\Users\\tkogut\\Documents\\GitHub\\Stacja-nawadniania\\main.ino"
 #include <LiquidCrystal_I2C.h>
 #include <SimpleDHT.h>
 #include <Wire.h>
@@ -33,11 +33,11 @@ const int AirValue = 520;   //you need to replace this value with Value_1
 const int WaterValue = 260; //you need to replace this value with Value_2
 int intervals = (AirValue - WaterValue) / 3;
 
-#line 34 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino"
+#line 34 "c:\\Users\\tkogut\\Documents\\GitHub\\Stacja-nawadniania\\main.ino"
 void setup();
-#line 44 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino"
+#line 44 "c:\\Users\\tkogut\\Documents\\GitHub\\Stacja-nawadniania\\main.ino"
 void loop();
-#line 34 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino"
+#line 34 "c:\\Users\\tkogut\\Documents\\GitHub\\Stacja-nawadniania\\main.ino"
 void setup()
 {
   Serial.begin(9600); // open serial port, set the baud rate to 9600 bps
