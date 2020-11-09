@@ -4,7 +4,7 @@
 #include <SimpleDHT.h>
 #include <Wire.h>
 
-#define MeasureBreak 600000
+#define MeasureBreak 6000
 #define NumberOfMeasurements 6
 #include <SoftwareSerial.h>
 SoftwareSerial nodemcu(3, 4);
@@ -23,7 +23,7 @@ int sum_of_moisture = 0; // initial value of the sum of the moisture measurement
 int mesurement = 0;      // initial value of the measurement item
 int mean_moisture = 0;
 int w = 0;
-String wilgotnosc[] = {"Sucho", "Mokra", "Bardzo mokra", "blad pomiaru"};
+String wilgotnosc[] = {"Sucho", "Mokra", "Bardzo mokra", "blad pomiaru", "blad DHT11", "pomiar..."};
 String cdata;
 String myString;
 
@@ -56,7 +56,13 @@ void loop()
 
   if (dht11.read(pinDHT11, &temperature, &humidity, NULL))
   {
-    Serial.print("Read DHT11 failed.");
+    w = 4;
+    Serial.println("Read DHT11 failed.");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(wilgotnosc[w]);
+    delay(5000);
+    w = 5;
     return;
   }
 
@@ -86,7 +92,7 @@ void loop()
   Serial.println(wilgotnosc[w]);
   Serial.println(ceil(sum_of_moisture / mesurement));
   // DHT11 sampling rate is 1HZ.
-  delay(2000);
+  delay(1000);
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Wilgotnosc gleby");
@@ -95,7 +101,6 @@ void loop()
   myString = wilgotnosc[w];
   cdata = cdata + myValue + "," + myValue1 + "," + myString;
   nodemcu.println(cdata);
-  delay(2000);
   cdata = "";
 
   if (CurrentTime - LastTime > MeasureBreak) // if the time of the mesurements is longer than MeasurementBreak value:
@@ -105,26 +110,25 @@ void loop()
     sum_of_moisture += analogRead(A0); // add the current moisture value to the sum of the moisture measurement
     if (mesurement >= NumberOfMeasurements)
     {
-      int mean_moisture = ceil(sum_of_moisture / mesurement);
-      lcd.clear();
-      Serial.println(CurrentTime);
-
-      if (mean_moisture > WaterValue && mean_moisture < (WaterValue + intervals))
+      int mean_moisture = (ceil(sum_of_moisture / mesurement));
+      //lcd.clear();
+      //Serial.println(CurrentTime);
+      if (mean_moisture > (AirValue - intervals) && mean_moisture < AirValue)
       {
         lcd.clear();
-        w = 2;
+        w = 0;
         Serial.println(wilgotnosc[w]);
         Serial.println(mean_moisture);
         lcd.setCursor(0, 0);
         lcd.print("Wilgotnosc gleby");
         lcd.setCursor(1, 1);
         lcd.print(wilgotnosc[w]);
-        digitalWrite(relay_pump, HIGH);
-        delay(1000);
+        digitalWrite(relay_pump, LOW);
+        delay(20000);
         lcd.setCursor(10, 1);
-        //lcd.println(mean_moisture);
-        delay(5000);
+        lcd.println(mean_moisture);
       }
+
       else if (mean_moisture > (WaterValue + intervals) && mean_moisture < (AirValue - intervals))
       {
         lcd.clear();
@@ -138,33 +142,36 @@ void loop()
         digitalWrite(relay_pump, LOW);
         delay(10000);
         lcd.setCursor(10, 1);
-        //lcd.println(mean_moisture);
+        lcd.println(mean_moisture);
       }
-      else if (mean_moisture < AirValue && mean_moisture > (AirValue - intervals))
+      else if (mean_moisture > WaterValue && mean_moisture < (WaterValue + intervals))
       {
         lcd.clear();
-        w = 0;
+        w = 2;
         Serial.println(wilgotnosc[w]);
         Serial.println(mean_moisture);
         lcd.setCursor(0, 0);
         lcd.print("Wilgotnosc gleby");
         lcd.setCursor(1, 1);
         lcd.print(wilgotnosc[w]);
-        digitalWrite(relay_pump, LOW);
-        delay(20000);
-        lcd.setCursor(10, 1);
+        digitalWrite(relay_pump, HIGH);
+        //delay(1000);
+        //lcd.setCursor(10, 1);
         //lcd.println(mean_moisture);
+        delay(5000);
       }
       else
       {
-        w = 4;
+        w = 3;
         lcd.clear();
+        lcd.setCursor(0, 0);
         Serial.println(wilgotnosc[w]);
-        lcd.println(wilgotnosc[w]);
+        lcd.print(wilgotnosc[w]);
         delay(5000);
       }
       digitalWrite(relay_pump, HIGH);
-      mesurement = sum_of_moisture = 0;
+      mesurement = 0;
+      sum_of_moisture = 0;
     }
   }
 }
