@@ -1,11 +1,13 @@
 #include <Arduino.h>
-#line 1 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino"
+#line 1 "c:\\Users\\tkogut\\Documents\\GitHub\\Stacja-nawadniania\\main.ino"
 #include <LiquidCrystal_I2C.h>
 #include <SimpleDHT.h>
 #include <Wire.h>
 
-#define MeasureBreak 600000
+#define MeasureBreak 6000
 #define NumberOfMeasurements 6
+#include <SoftwareSerial.h>
+SoftwareSerial nodemcu(3, 4);
 
 // Set the LCD address to 0x27 for a 16 chars and 2 line display
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -21,7 +23,9 @@ int sum_of_moisture = 0; // initial value of the sum of the moisture measurement
 int mesurement = 0;      // initial value of the measurement item
 int mean_moisture = 0;
 int w = 0;
-String wilgotnosc[] = {"Sucha", "Mokra", "Bardzo mokra"};
+String wilgotnosc[] = {"Sucho", "Mokra", "Bardzo mokra", "blad pomiaru", "blad DHT11", "pomiar..."};
+String cdata;
+String myString;
 
 unsigned long LastTime = 0;
 
@@ -29,15 +33,16 @@ const int AirValue = 520;   //you need to replace this value with Value_1
 const int WaterValue = 260; //you need to replace this value with Value_2
 int intervals = (AirValue - WaterValue) / 3;
 
-#line 30 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino"
+#line 34 "c:\\Users\\tkogut\\Documents\\GitHub\\Stacja-nawadniania\\main.ino"
 void setup();
-#line 39 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino"
+#line 44 "c:\\Users\\tkogut\\Documents\\GitHub\\Stacja-nawadniania\\main.ino"
 void loop();
-#line 30 "c:\\Users\\tkogut\\Documents\\Arduino\\BIURKO_1\\main.ino"
+#line 34 "c:\\Users\\tkogut\\Documents\\GitHub\\Stacja-nawadniania\\main.ino"
 void setup()
 {
   Serial.begin(9600); // open serial port, set the baud rate to 9600 bps
-  lcd.begin();        // initialize the LCD
+  nodemcu.begin(9600);
+  lcd.begin(); // initialize the LCD
   lcd.backlight();
   pinMode(relay_pump, OUTPUT);
   digitalWrite(relay_pump, HIGH);
@@ -51,14 +56,22 @@ void loop()
 
   if (dht11.read(pinDHT11, &temperature, &humidity, NULL))
   {
-    Serial.print("Read DHT11 failed.");
+    w = 4;
+    Serial.println("Read DHT11 failed.");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(wilgotnosc[w]);
+    delay(5000);
+    w = 5;
     return;
   }
+
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.println("Temperatura:");
   lcd.setCursor(12, 0);
   lcd.println((int)temperature);
+  int myValue = temperature;
   lcd.setCursor(14, 0);
   lcd.println((char)223);
   lcd.setCursor(15, 0);
@@ -67,6 +80,7 @@ void loop()
   lcd.println("Wilgotnosc: ");
   lcd.setCursor(12, 1);
   lcd.println((int)humidity);
+  int myValue1 = humidity;
   lcd.setCursor(14, 1);
   lcd.println(" ");
   lcd.setCursor(15, 1);
@@ -75,15 +89,19 @@ void loop()
   Serial.println(CurrentTime);
   Serial.println(LastTime);
   Serial.println(mesurement);
+  Serial.println(wilgotnosc[w]);
   Serial.println(ceil(sum_of_moisture / mesurement));
   // DHT11 sampling rate is 1HZ.
-  delay(2000);
+  delay(1000);
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Wilgotnosc gleby");
   lcd.setCursor(1, 1);
   lcd.print(wilgotnosc[w]);
-  delay(2000);
+  myString = wilgotnosc[w];
+  cdata = cdata + myValue + "," + myValue1 + "," + myString;
+  nodemcu.println(cdata);
+  cdata = "";
 
   if (CurrentTime - LastTime > MeasureBreak) // if the time of the mesurements is longer than MeasurementBreak value:
   {
@@ -92,26 +110,25 @@ void loop()
     sum_of_moisture += analogRead(A0); // add the current moisture value to the sum of the moisture measurement
     if (mesurement >= NumberOfMeasurements)
     {
-      int mean_moisture = ceil(sum_of_moisture / mesurement);
-      lcd.clear();
-      Serial.println(CurrentTime);
-
-      if (mean_moisture > WaterValue && mean_moisture < (WaterValue + intervals))
+      int mean_moisture = (ceil(sum_of_moisture / mesurement));
+      //lcd.clear();
+      //Serial.println(CurrentTime);
+      if (mean_moisture > (AirValue - intervals) && mean_moisture < AirValue)
       {
         lcd.clear();
-        w = 2;
+        w = 0;
         Serial.println(wilgotnosc[w]);
         Serial.println(mean_moisture);
         lcd.setCursor(0, 0);
         lcd.print("Wilgotnosc gleby");
         lcd.setCursor(1, 1);
         lcd.print(wilgotnosc[w]);
-        digitalWrite(relay_pump, HIGH);
-        delay(1000);
+        digitalWrite(relay_pump, LOW);
+        delay(20000);
         lcd.setCursor(10, 1);
-        //lcd.println(mean_moisture);
-        delay(5000);
+        lcd.println(mean_moisture);
       }
+
       else if (mean_moisture > (WaterValue + intervals) && mean_moisture < (AirValue - intervals))
       {
         lcd.clear();
@@ -125,32 +142,36 @@ void loop()
         digitalWrite(relay_pump, LOW);
         delay(10000);
         lcd.setCursor(10, 1);
-        //lcd.println(mean_moisture);
+        lcd.println(mean_moisture);
       }
-      else if (mean_moisture < AirValue && mean_moisture > (AirValue - intervals))
+      else if (mean_moisture > WaterValue && mean_moisture < (WaterValue + intervals))
       {
         lcd.clear();
-        w = 0;
+        w = 2;
         Serial.println(wilgotnosc[w]);
         Serial.println(mean_moisture);
         lcd.setCursor(0, 0);
         lcd.print("Wilgotnosc gleby");
         lcd.setCursor(1, 1);
         lcd.print(wilgotnosc[w]);
-        digitalWrite(relay_pump, LOW);
-        delay(20000);
-        lcd.setCursor(10, 1);
+        digitalWrite(relay_pump, HIGH);
+        //delay(1000);
+        //lcd.setCursor(10, 1);
         //lcd.println(mean_moisture);
+        delay(5000);
       }
       else
       {
+        w = 3;
         lcd.clear();
-        Serial.println("Blad pomiaru");
-        lcd.println("Blad pomiaru");
+        lcd.setCursor(0, 0);
+        Serial.println(wilgotnosc[w]);
+        lcd.print(wilgotnosc[w]);
         delay(5000);
       }
       digitalWrite(relay_pump, HIGH);
-      mesurement = sum_of_moisture = 0;
+      mesurement = 0;
+      sum_of_moisture = 0;
     }
   }
 }
