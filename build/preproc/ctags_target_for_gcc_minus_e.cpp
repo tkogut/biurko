@@ -1,11 +1,11 @@
-# 1 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino"
-# 2 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino" 2
-# 3 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino" 2
-# 4 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino" 2
+# 1 "c:\\Users\\tkogut\\Documents\\GitHub\\Stacja-nawadniania\\main.ino"
+# 2 "c:\\Users\\tkogut\\Documents\\GitHub\\Stacja-nawadniania\\main.ino" 2
+# 3 "c:\\Users\\tkogut\\Documents\\GitHub\\Stacja-nawadniania\\main.ino" 2
+# 4 "c:\\Users\\tkogut\\Documents\\GitHub\\Stacja-nawadniania\\main.ino" 2
 
 
 
-# 8 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino" 2
+# 8 "c:\\Users\\tkogut\\Documents\\GitHub\\Stacja-nawadniania\\main.ino" 2
 SoftwareSerial nodemcu(3, 4);
 
 // Set the LCD address to 0x27 for a 16 chars and 2 line display
@@ -49,9 +49,9 @@ void loop()
   unsigned long CurrentTime = millis(); // time from start of the sketch
 
   if (dht11.read(pinDHT11, &temperature, &humidity, 
-# 50 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino" 3 4
+# 50 "c:\\Users\\tkogut\\Documents\\GitHub\\Stacja-nawadniania\\main.ino" 3 4
                                                    __null
-# 50 "c:\\Users\\tkogut\\Documents\\Arduino\\Stacja nawadninia\\main.ino"
+# 50 "c:\\Users\\tkogut\\Documents\\GitHub\\Stacja-nawadniania\\main.ino"
                                                        ))
   {
     w = 4;
